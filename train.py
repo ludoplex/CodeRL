@@ -30,29 +30,33 @@ torch.multiprocessing.set_sharing_strategy('file_system')
 
 def run_training(args, train_data):
     if args.model in ['codet5-base', 'codet5-large']:
-        model_path = args.model_path if args.model_path is not None else 'Salesforce/{}'.format(args.model)        
-        print("Loading model from {}...".format(model_path))
+        model_path = (
+            args.model_path
+            if args.model_path is not None
+            else f'Salesforce/{args.model}'
+        )
+        print(f"Loading model from {model_path}...")
         model = transformers.T5ForConditionalGeneration.from_pretrained(
             model_path,
             tuning_mode=args.tuning_mode, 
             clone_rl_head=args.clone_rl_head) 
-        
+
         if args.clone_rl_head:
             # Optional: clone a seperate RL head and initialize the model weights from finetuned LM head 
             print("Initializing RL head with finetuned LM head...")
             lm_head_params = model.lm_head.weight.detach().numpy()
             model.rl_head.weight = torch.nn.Parameter(torch.tensor(lm_head_params))
-                
-    print('Finished loading model {}'.format(args.model))
+
+    print(f'Finished loading model {args.model}')
 
     start_iteration = 0
     train_data.start_iteration = start_iteration
-    print(f"Starting main loop")
+    print("Starting main loop")
 
     training_args = transformers.TrainingArguments(
         output_dir=args.save_dir,
         overwrite_output_dir=True, 
-        
+
         do_train=True,
         do_eval=False,
         do_predict=True,
@@ -80,9 +84,9 @@ def run_training(args, train_data):
 
         deepspeed=args.deepspeed,
         fp16=args.fp16,
-        
+
     )
-    
+
     if args.tuning_mode in ['critic', 'rl']:
         trainer = Trainer_RL(
             model=model,
@@ -96,9 +100,9 @@ def run_training(args, train_data):
             args=training_args,
             train_dataset=train_data,
         )
-    
+
     trainer.train()
-    
+
     if args.local_rank == 0:
         model.save_pretrained(os.path.join(args.save_dir, "final_checkpoint"))
 
@@ -106,7 +110,7 @@ def run_training(args, train_data):
 def get_dataset(args): 
     
     fnames = os.listdir(args.train_path) 
-    
+
     # train in debugging mode with small data split 
     if args.db:
         fnames = fnames[:50]
@@ -117,19 +121,17 @@ def get_dataset(args):
     else:
         max_tokens = 1024
         max_src_tokens = -1
-    
-    train_data = APPSBaseDataset(
-        dataroot=args.train_path, 
+
+    return APPSBaseDataset(
+        dataroot=args.train_path,
         problem_dirs=fnames,
         model=args.model,
         max_tokens=max_tokens,
         max_src_tokens=max_src_tokens,
         sample_mode=args.sample_mode,
         tuning_mode=args.tuning_mode,
-        relative_returns=args.relative_returns
+        relative_returns=args.relative_returns,
     )
-
-    return train_data
 
 
 def main(args):

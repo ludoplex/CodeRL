@@ -45,13 +45,9 @@ def reindent_code(codestr):
 
 
 def get_error_type(result, binary=False):
-    # binary classification critic 
+    # binary classification critic
     if binary:
-        if result == True:
-            return 1
-        else:
-            return 0
-        
+        return 1 if result == True else 0
     # Compile error 
     if result == -2:
         return 0
