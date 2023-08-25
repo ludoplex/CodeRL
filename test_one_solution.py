@@ -21,28 +21,28 @@ from utils.testing_util import run_test
 
 def eval_and_save_problems(args):
 
-    problems = sorted(glob.glob(args.test_path + '/*'))
-    test_indices = [] 
+    problems = sorted(glob.glob(f'{args.test_path}/*'))
+    test_indices = []
     for problem_idx, problem in enumerate(problems): 
         problem_id = int(problem.split('/')[-1])
-        code_file_path = args.code_path + '/{}.json'.format(problem_id)
+        code_file_path = f'{args.code_path}/{problem_id}.json'
         if os.path.exists(code_file_path):
             test_indices.append(problem_idx)
-    
-    real_index = test_indices[args.index] 
+
+    real_index = test_indices[args.index]
     problem = problems[real_index]
-    
+
     if not os.path.exists(args.output_path):
         os.makedirs(args.output_path)
-    
-    print('Testing sample {}'.format(problem))
-    
+
+    print(f'Testing sample {problem}')
+
     if args.example_tests:
         print("Using example tests") 
-    
-    codes_loc = args.code_path + '/{}.json'.format(real_index)
+
+    codes_loc = f'{args.code_path}/{real_index}.json'
     if not os.path.isfile(codes_loc):
-        exit() 
+        exit()
     with open(codes_loc, "r") as file: 
         gen_codes = json.load(file)[str(real_index)]['code']
 
@@ -52,10 +52,10 @@ def eval_and_save_problems(args):
     if args.max_tests!=-1 and nb_tests > args.max_tests: 
         exit() 
 
-    if os.path.isfile(args.output_path + '/{}.pkl'.format(real_index)):
+    if os.path.isfile(f'{args.output_path}/{real_index}.pkl'):
         exit()
-        
-    print("Saving to {}".format(args.output_path + '/{}.pkl'.format(real_index)))
+
+    print(f"Saving to {args.output_path}/{real_index}.pkl")
 
     all_results, all_errors, all_sols = [], [], []
 
@@ -87,8 +87,8 @@ def eval_and_save_problems(args):
             all_errors.append(curr_errors)
             all_sols.append(curr_sol)
 
-        save_results = {real_index : {'results': all_results, 'errors': all_errors, 'sols': all_sols}} 
-        with open(args.output_path + '/{}.pkl'.format(real_index), "wb") as file:
+        save_results = {real_index : {'results': all_results, 'errors': all_errors, 'sols': all_sols}}
+        with open(f'{args.output_path}/{real_index}.pkl', "wb") as file:
             pkl.dump(save_results, file)  
 
     '''
@@ -99,8 +99,8 @@ def eval_and_save_problems(args):
     [True] = passed test case
     '''
 
-    save_results = {real_index : {'results': all_results, 'errors': all_errors, 'sols': all_sols}} 
-    pkl.dump(save_results,  open(args.output_path + '/{}.pkl'.format(real_index), "wb"))                    
+    save_results = {real_index : {'results': all_results, 'errors': all_errors, 'sols': all_sols}}
+    pkl.dump(save_results, open(f'{args.output_path}/{real_index}.pkl', "wb"))                    
 
 def main(args):    
     argsdict = vars(args)    

@@ -47,17 +47,17 @@ class APPSBaseDataset(torch.utils.data.Dataset):
     def load_gen_samples(self, sols, answer_type, starter_code, question_str):
         samples = []
         info = []
-        
-        for idx, sol in enumerate(sols):
-            sol_str = sol['code']  
+
+        for sol in sols:
+            sol_str = sol['code']
             sample = (question_str, starter_code, sol_str, answer_type)
             samples.append(sample) 
-            
+
             result = sol['result']
             error_type = sol['error_type']
-            
+
             info.append((result, error_type))
-            
+
         return samples, info 
     
     def load_rl_samples(self, sols, baseline_error_type): 

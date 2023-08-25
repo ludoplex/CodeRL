@@ -10,7 +10,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description="Training a critic model for code generation")
 parser.add_argument('--model', default='codet5-base', type=str, help='type of transformers model as model backbone')
-parser.add_argument('--model_path', default=None, type=str, help='path to model backbone pretrained weights') 
+parser.add_argument('--model_path', default=None, type=str, help='path to model backbone pretrained weights')
 parser.add_argument('--save_dir', default=None, type=str, help='path to save trained critic model checkpoints') 
 
 # Dataloading
@@ -41,12 +41,9 @@ parser.add_argument('--save_total_limit', default=2, type=int, help='total of nu
 args = parser.parse_args()
 
 if args.save_dir is None: 
-     args.save_dir = '{}_{}_bs{}x{}_lr{}'.format(
-         args.model, args.tuning_mode,
-         args.batch_size_per_replica, args.grad_acc_steps, args.lr
-     )
+     args.save_dir = f'{args.model}_{args.tuning_mode}_bs{args.batch_size_per_replica}x{args.grad_acc_steps}_lr{args.lr}'
 
 if args.db:
-    args.save_dir = 'exps/test/{}'.format(args.save_dir)
+     args.save_dir = f'exps/test/{args.save_dir}'
 else:
-    args.save_dir = 'exps/{}'.format(args.save_dir)
+     args.save_dir = f'exps/{args.save_dir}'
