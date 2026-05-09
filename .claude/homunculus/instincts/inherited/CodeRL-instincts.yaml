@@ -1,0 +1,302 @@
+# Instincts generated from https://github.com/ludoplex/CodeRL
+# Generated: 2026-05-09T01:28:54.735Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: CodeRL-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/ludoplex/CodeRL
+---
+
+# CodeRL Commit Length
+
+## Action
+
+Write moderate-length commit messages (~56 characters)
+
+## Evidence
+
+- Average commit message length: 56 chars
+- Based on 1 commits
+
+---
+id: CodeRL-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/ludoplex/CodeRL
+---
+
+# CodeRL Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: CodeRL-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/ludoplex/CodeRL
+---
+
+# CodeRL Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: CodeRL-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/ludoplex/CodeRL
+---
+
+# CodeRL Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: CodeRL-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/ludoplex/CodeRL
+---
+
+# CodeRL Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: CodeRL-workflow-update-python-dependencies-across-multiple-projects
+trigger: "when doing update python dependencies across multiple projects"
+confidence: 0.55
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/ludoplex/CodeRL
+---
+
+# CodeRL Workflow Update Python Dependencies Across Multiple Projects
+
+## Action
+
+Follow the update-python-dependencies-across-multiple-projects workflow:
+1. Identify outdated dependencies in each project's requirements.txt
+2. Update the version numbers for relevant packages in each requirements.txt
+3. Commit all changed requirements.txt files together with a summary of updated packages
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~1x per month
+- Files: transformers/examples/research_projects/*/requirements.txt
+
+---
+id: coderl-instinct-file-naming-camelcase
+trigger: "When creating a new file in the codebase"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ludoplex/CodeRL
+---
+
+# Coderl Instinct File Naming Camelcase
+
+## Action
+
+Name the file using camelCase
+
+## Evidence
+
+- Pattern in namingConventions.files
+
+---
+id: coderl-instinct-function-naming-camelcase
+trigger: "When defining a new function"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ludoplex/CodeRL
+---
+
+# Coderl Instinct Function Naming Camelcase
+
+## Action
+
+Name the function using camelCase
+
+## Evidence
+
+- Pattern in namingConventions.functions
+
+---
+id: coderl-instinct-class-naming-pascalcase
+trigger: "When defining a new class"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ludoplex/CodeRL
+---
+
+# Coderl Instinct Class Naming Pascalcase
+
+## Action
+
+Name the class using PascalCase
+
+## Evidence
+
+- Pattern in namingConventions.classes
+
+---
+id: coderl-instinct-constant-naming-screaming-snake-case
+trigger: "When declaring a constant"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ludoplex/CodeRL
+---
+
+# Coderl Instinct Constant Naming Screaming Snake Case
+
+## Action
+
+Name the constant using SCREAMING_SNAKE_CASE
+
+## Evidence
+
+- Pattern in namingConventions.constants
+
+---
+id: coderl-instinct-import-style-relative
+trigger: "When importing modules within the project"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ludoplex/CodeRL
+---
+
+# Coderl Instinct Import Style Relative
+
+## Action
+
+Use relative import paths
+
+## Evidence
+
+- Pattern in importStyle
+
+---
+id: coderl-instinct-export-style-named
+trigger: "When exporting modules or functions"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ludoplex/CodeRL
+---
+
+# Coderl Instinct Export Style Named
+
+## Action
+
+Use named exports
+
+## Evidence
+
+- Pattern in exportStyle
+
+---
+id: coderl-instinct-commit-format-freeform
+trigger: "When writing a commit message"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: ludoplex/CodeRL
+---
+
+# Coderl Instinct Commit Format Freeform
+
+## Action
+
+Write a freeform summary without a strict prefix, typically describing the main change (e.g., 'Bump the pip group across 12 directories with 19 updates')
+
+## Evidence
+
+- Pattern in commits.examples
+
+---
+id: coderl-instinct-update-python-dependencies-workflow
+trigger: "When dependencies in research project requirements.txt files are outdated"
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: ludoplex/CodeRL
+---
+
+# Coderl Instinct Update Python Dependencies Workflow
+
+## Action
+
+Identify outdated dependencies, update their versions in each requirements.txt, and commit all changes together with a summary of updated packages
+
+## Evidence
+
+- Workflow: update-python-dependencies-across-multiple-projects
+- Pattern in commit examples: 'Bump the pip group across 12 directories with 19 updates'
+
+---
+id: coderl-instinct-test-location-separate
+trigger: "When creating or updating tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: ludoplex/CodeRL
+---
+
+# Coderl Instinct Test Location Separate
+
+## Action
+
+Place test files in a separate directory from source code
+
+## Evidence
+
+- Pattern in architecture.testLocation
+
